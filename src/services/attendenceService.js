@@ -19,15 +19,22 @@ export const newAttendance = async (classId, attendanceData) => {
   }
 };
 
-export const updateAttendance = async (attendanceId, classData) => {
-  const response = await axios.put(
-    `${BACKEND_URL}/${attendanceId}`,
-    classData,
-    {
-      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-    }
-  );
-  return response.data;
+export const updateAttendance = async (recordId, attendanceData) => {
+  try {
+    const response = await axios.put(
+      `${BACKEND_URL}/${recordId}`,
+      attendanceData,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating attendance:", error);
+    throw new Error(
+      error.response?.data?.message || "Failed to update attendance"
+    );
+  }
 };
 
 export const getAttendance = async (classId) => {

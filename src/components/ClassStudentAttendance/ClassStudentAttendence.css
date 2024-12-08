@@ -1,5 +1,5 @@
 .class-student-attendance-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 20px auto;
   padding: 20px;
   background-color: #f8f9fa;
@@ -14,33 +14,29 @@
   color: #333;
 }
 
-.attendance-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
 }
 
-.attendance-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.attendance-table th,
+.attendance-table td {
   padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  text-align: left;
 }
 
-.attendance-date {
+.attendance-table th {
+  background-color: #f4f4f4;
   font-weight: bold;
-  color: #333;
 }
 
 .attendance-status {
   padding: 5px 10px;
-  border-radius: 20px;
-  font-weight: bold;
+  border-radius: 5px;
   text-transform: uppercase;
+  font-weight: bold;
 }
 
 .attendance-status.present {
@@ -56,4 +52,26 @@
 .attendance-status.late {
   background-color: #ffc107;
   color: #333;
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .class-student-attendance-container {
+    padding: 10px;
+  }
+
+  .attendance-header {
+    font-size: 1.2rem;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .attendance-status {
+    padding: 4px 8px;
+    font-size: 0.8rem;
+  }
 }

@@ -6,7 +6,7 @@
   position: relative;
   bottom: 0;
   width: 100%;
-  margin-top: 50vh;
+  margin-top: 10vh;
 }
 
 .footer-content {
@@ -34,4 +34,15 @@
 
 .footer-links a:hover {
   color: #007bff;
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 0 10px;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+  }
 }

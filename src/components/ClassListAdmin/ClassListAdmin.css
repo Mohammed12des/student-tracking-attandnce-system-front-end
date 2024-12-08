@@ -1,57 +1,146 @@
 .class-list-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  margin: 20px;
   padding: 20px;
+  border-radius: 12px;
+  background-color: #ffe4e6; /* Soft pink background */
+  color: #333;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1500px; /* Make the container wider */
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
   text-align: center;
-  color: #333;
+  font-size: 24px;
+  color: #ff5c75; /* Highlighted pink text */
+  margin-bottom: 20px;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between; /* Space between Add Class button and search input */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 20px; /* Space below the header actions */
+}
+
+.add-class-button {
+  padding: 10px 20px;
+  margin-right: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.add-class-button:hover {
+  background-color: #45a049;
 }
 
 .search-input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   margin-bottom: 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #ffccd3; /* Soft pink border */
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 16px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 .class-list-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .class-list-table th,
 .class-list-table td {
-  padding: 10px;
+  padding: 15px;
+  border: 1px solid #ffccd3; /* Pink border for cells */
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  font-size: 16px;
 }
 
 .class-list-table th {
-  background-color: #f4f4f4;
+  background-color: #ff5c75; /* Stronger pink for header */
+  color: #fff;
   font-weight: bold;
 }
 
-.class-list-table tr:hover {
-  background-color: #f1f1f1;
+.class-list-table td {
+  color: #333;
 }
 
-a {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: bold;
+.even-row {
+  background-color: #f9f9f9;
 }
 
-a:hover {
-  text-decoration: underline;
+.odd-row {
+  background-color: #fff;
 }
 
-p {
-  text-align: center;
-  color: #666;
+.actions {
+  display: flex;
+  gap: 10px; /* Space between action buttons */
+}
+
+.icon-button {
+  padding: 5px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem; /* Increased font size for better visibility */
+  display: flex;
+  align-items: center; /* Center icon vertically */
+}
+
+.update-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.update-button:hover {
+  background-color: #45a049;
+}
+
+.delete-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #e53935;
+}
+
+.loading-message,
+.error-message {
+  color: #ff5c75; /* Pink text for messages */
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .class-list-container {
+    padding: 10px;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .add-class-button {
+    margin-bottom: 10px;
+  }
+
+  .class-list-table th,
+  .class-list-table td {
+    padding: 10px;
+  }
 }

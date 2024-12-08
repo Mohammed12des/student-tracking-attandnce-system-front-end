@@ -1,6 +1,6 @@
 .attendance-container {
   padding: 20px;
-  max-width: 600px;
+  max-width: 1000px; /* Make the container wider */
   margin: 0 auto;
   background-color: #f9f9f9;
   border-radius: 10px;
@@ -13,31 +13,43 @@
   margin-bottom: 20px;
 }
 
-.attendance-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.attendance-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  margin-bottom: 10px;
-  background-color: #fff;
+.search-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  font-size: 16px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.attendance-student-name {
-  font-size: 1.2rem;
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-table th,
+.attendance-table td {
+  padding: 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 16px;
+}
+
+.attendance-table th {
+  background-color: #ff5c75;
+  color: #fff;
   font-weight: bold;
 }
 
-.attendance-date {
-  font-size: 1rem;
-  color: #888;
+.attendance-table td {
+  color: #333;
 }
 
 .attendance-status {
@@ -55,4 +67,102 @@
 
 .attendance-status.absent {
   background-color: #dc3545;
+}
+
+.attendance-status.late {
+  background-color: #ffc107;
+  color: #333;
+}
+
+button {
+  padding: 5px 10px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+.dashboard-container {
+  padding: 20px;
+}
+
+.dashboard-card {
+  background-color: #f5f5f5;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+}
+
+.attendance-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.attendance-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.attendance-student-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.attendance-date {
+  font-weight: bold;
+  color: #333;
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .dashboard-card {
+    padding: 10px;
+  }
+
+  .attendance-header {
+    font-size: 1.2rem;
+  }
+
+  .search-input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .attendance-table th,
+  .attendance-table td {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .attendance-status {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  button {
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .attendance-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .attendance-student-name,
+  .attendance-date {
+    font-size: 14px;
+  }
 }

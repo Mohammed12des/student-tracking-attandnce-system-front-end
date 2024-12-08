@@ -5,7 +5,7 @@ import "./Signin.css";
 
 const SigninForm = (props) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState([""]);
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -24,9 +24,12 @@ const SigninForm = (props) => {
     e.preventDefault();
     try {
       const user = await authService.signin(formData);
-      console.log(user);
       props.setUser(user);
-      navigate("/");
+      if (user.role === "admin") {
+        navigate("/admin/users"); // Navigate to the admin dashboard
+      } else {
+        navigate("/"); // Navigate to the regular dashboard
+      }
     } catch (err) {
       updateMessage(err.message);
     }
@@ -34,42 +37,50 @@ const SigninForm = (props) => {
 
   return (
     <main className="signin-container">
-      <div className="signin-card">
+      <div className="signin-left">
+        <h1 className="signin-title">
+          Sign In to Web Attendance Management System
+        </h1>
+        <img
+          src="https://www.paatham.in/assets/images/1.webp"
+          alt="Web Attendance Illustration"
+          className="signin-illustration"
+        />
+      </div>
+      <div className="signin-right">
         <form
           autoComplete="off"
           onSubmit={handleSubmit}
           className="signin-form"
         >
-          <h1 className="title">Log In</h1>
+          <h2 className="form-title">Sign In</h2>
           <div className="input-group">
-            <label htmlFor="username">Username:</label>
             <input
               type="text"
-              autoComplete="off"
               id="username"
               value={formData.username}
               name="username"
               onChange={handleChange}
-              className="animated-input"
+              className="input-field"
+              placeholder="Enter Username"
+              required
             />
           </div>
           <div className="input-group">
-            <label htmlFor="password">Password:</label>
             <input
               type="password"
-              autoComplete="off"
               id="password"
               value={formData.password}
               name="password"
               onChange={handleChange}
-              className="animated-input"
+              className="input-field"
+              placeholder="Enter Password"
+              required
             />
           </div>
-          <div className="button-container">
-            <button type="signin" className="animated-button bg-black">
-              Log In
-            </button>
-          </div>
+          <button type="submit" className="signin-button">
+            Sign In
+          </button>
           <div className="form-footer">
             <p>Don't have an account?</p>
             <Link className="signup-link" to="/signup">

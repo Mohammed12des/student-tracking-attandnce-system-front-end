@@ -1,102 +1,109 @@
 import { Link } from "react-router-dom";
 import { AuthedUserContext } from "../../App";
 import { useContext } from "react";
+import {
+  FaTachometerAlt,
+  FaChalkboardTeacher,
+  FaUserGraduate,
+  FaSignOutAlt,
+  FaPlus,
+  FaCalendarAlt,
+  FaHome,
+  FaInfoCircle,
+} from "react-icons/fa";
 import "./NavBar.css";
 
 const NavBar = ({ handleSignout }) => {
   const user = useContext(AuthedUserContext);
 
   return (
-    <>
-      {user ? (
-        <nav>
-          <ul>
-            <li>Welcome, {user.username}</li>
+    <nav>
+      <ul>
+        <li className="welcome">Welcome, {user?.username || "Guest"}</li>
 
-            {user.role === "admin" && (
-              <>
-                <li>
-                  <Link className="dashboard" to="/admin/users">
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <Link className="newClass" to="/admin/class/new">
-                    New Class
-                  </Link>
-                </li>
-                <li>
-                  <Link className="manageTeachers" to="/admin/users/teacher">
-                    Manage Teachers
-                  </Link>
-                </li>
-                <li>
-                  <Link className="manageTeachers" to="/admin/users/student">
-                    Manage Students
-                  </Link>
-                </li>
-                <li>
-                  <Link className="manageTeachers" to="/admin/class">
-                    List class
-                  </Link>
-                </li>
-              </>
-            )}
-
-            {user.role === "teacher" && (
-              <>
-                <li>
-                  <Link className="dashboard" to="/class">
-                    My Classes
-                  </Link>
-                </li>
-                <li>
-                  <Link className="attendance" to="/teacher/attendance">
-                    Mark Attendance
-                  </Link>
-                </li>
-              </>
-            )}
-
-            {user.role === "student" && (
-              <>
-                <li>
-                  <Link className="dashboard" to="/class">
-                    My Classes
-                  </Link>
-                </li>
-                <li>
-                  <Link className="schedule" to="/student/schedule">
-                    View Schedule
-                  </Link>
-                </li>
-              </>
-            )}
-
+        {user && user.role === "admin" && (
+          <>
             <li>
-              <Link className="signout" to="" onClick={handleSignout}>
-                Sign Out
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      ) : (
-        <nav>
-          <ul>
-            <li>
-              <Link className="signin" to="/signin">
-                Sign In
+              <Link to="/admin/users">
+                <FaTachometerAlt title="Dashboard" />
               </Link>
             </li>
             <li>
-              <Link className="signup" to="/signup">
-                Sign Up
+              <Link to="/admin/class/new">
+                <FaPlus title="New Class" />
               </Link>
             </li>
-          </ul>
-        </nav>
-      )}
-    </>
+            <li>
+              <Link to="/admin/users/teacher">
+                <FaChalkboardTeacher title="Manage Teachers" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/users/student">
+                <FaUserGraduate title="Manage Students" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/admin/class">
+                <FaCalendarAlt title="List Class" />
+              </Link>
+            </li>
+          </>
+        )}
+
+        {user && user.role === "teacher" && (
+          <>
+            <li>
+              <Link to="/">
+                <FaTachometerAlt title="My Classes" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/class">
+                <FaChalkboardTeacher title="Mark Attendance" />
+              </Link>
+            </li>
+          </>
+        )}
+
+        {user && user.role === "student" && (
+          <>
+            <li>
+              <Link to="/class">
+                <FaTachometerAlt title="My Classes" />
+              </Link>
+            </li>
+            <li>
+              <Link to="/class">
+                <FaCalendarAlt title="View Schedule" />
+              </Link>
+            </li>
+          </>
+        )}
+
+        {!user && (
+          <li>
+            <Link to="/">
+              <FaHome title="Home" />
+            </Link>
+          </li>
+        )}
+
+        <li>
+          <Link to="/about">
+            <FaInfoCircle title="About" />
+          </Link>
+        </li>
+
+        {user && (
+          <li>
+            <Link to="" onClick={handleSignout}>
+              <FaSignOutAlt title="Sign Out" />
+            </Link>
+          </li>
+        )}
+      </ul>
+    </nav>
   );
 };
 

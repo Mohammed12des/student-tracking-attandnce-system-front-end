@@ -6,6 +6,7 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import SignupForm from "./components/SignupForm/SignupForm";
 import SigninForm from "./components/SigninForm/SigninForm";
 import ClassForm from "./components/ClassForm/ClassForm";
+import About from "./components/About/About";
 import * as authService from "../src/services/authService";
 import * as classService from "./services/classService";
 import ClassDetail from "./components/ClassDetail/ClassDetail";
@@ -18,6 +19,7 @@ import ClassDetailAdmin from "./components/ClassDetailAdmin/ClassDetailAdmin";
 import ClassStudentAttendance from "./components/ClassStudentAttendance/ClassStudentAttendance";
 import AttendanceList from "./components/AttendanceList/AttendanceList";
 import Footer from "./components/Footer/Footer";
+
 export const AuthedUserContext = createContext(null);
 
 const App = () => {
@@ -57,80 +59,84 @@ const App = () => {
   return (
     <AuthedUserContext.Provider value={user}>
       <NavBar user={user} handleSignout={handleSignout} />
-      <Routes>
-        {user ? (
-          <>
-            {/* Common routes for all users */}
-            <Route path="/" element={<Dashboard user={user} />} />
+      <main>
+        <Routes>
+          {user ? (
+            <>
+              {/* Common routes for all users */}
+              <Route path="/" element={<Dashboard user={user} />} />
+              <Route path="/about" element={<About />} />
 
-            {/* Routes for admin only */}
-            {user.role === "admin" && (
-              <>
-                <Route
-                  path="/admin/users"
-                  element={<AdminDashboard user={user} />}
-                />
-                <Route
-                  path="/admin/users/teacher"
-                  element={<MangeTeacher user={user} />}
-                />
-                <Route
-                  path="/admin/users/student"
-                  element={<MangeStudent user={user} />}
-                />
-                <Route
-                  path="/admin/class/new"
-                  element={<ClassForm handleAddClass={handleAddClass} />}
-                />
-                <Route path="/admin/class" element={<ClassListAdmin />} />
-                <Route
-                  path="/admin/class/:classId"
-                  element={
-                    <ClassDetailAdmin
-                      handleUpdateClass={handleUpdateClass}
-                      handleDeleteClass={handleDeleteClass}
-                    />
-                  }
-                />
-              </>
-            )}
+              {/* Routes for admin only */}
+              {user.role === "admin" && (
+                <>
+                  <Route
+                    path="/admin/users"
+                    element={<AdminDashboard user={user} />}
+                  />
+                  <Route
+                    path="/admin/users/teacher"
+                    element={<MangeTeacher user={user} />}
+                  />
+                  <Route
+                    path="/admin/users/student"
+                    element={<MangeStudent user={user} />}
+                  />
+                  <Route
+                    path="/admin/class/new"
+                    element={<ClassForm handleAddClass={handleAddClass} />}
+                  />
+                  <Route path="/admin/class" element={<ClassListAdmin />} />
+                  <Route
+                    path="/admin/class/:classId"
+                    element={
+                      <ClassDetailAdmin
+                        handleUpdateClass={handleUpdateClass}
+                        handleDeleteClass={handleDeleteClass}
+                      />
+                    }
+                  />
+                </>
+              )}
 
-            {/* Routes for teacher only */}
-            {user.role === "teacher" && (
-              <>
-                <Route path="/class" element={<ClassList />} />
-                <Route path="/class/:classId" element={<ClassDetail />} />
+              {/* Routes for teacher only */}
+              {user.role === "teacher" && (
+                <>
+                  <Route path="/class" element={<ClassList />} />
+                  <Route path="/class/:classId" element={<ClassDetail />} />
+                  <Route
+                    path="/class/:classId/view-attendance"
+                    element={<AttendanceList />}
+                  />
+                </>
+              )}
 
-                <Route
-                  path="/class/:classId/view-attendance"
-                  element={<AttendanceList />}
-                />
-              </>
-            )}
-
-            {/* Routes for student only */}
-            {user.role === "student" && (
-              <>
-                <Route path="/class" element={<ClassList />} />
-                <Route path="/class/:classId" element={<ClassDetail />} />
-                <Route
-                  path="/class/:classId/view-attendance"
-                  element={<AttendanceList />}
-                />
-              </>
-            )}
-          </>
-        ) : (
-          <>
-            {/* Routes for non-authenticated users */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/signup" element={<SignupForm setUser={setUser} />} />
-            <Route path="/signin" element={<SigninForm setUser={setUser} />} />
-          </>
-        )}
-      </Routes>
-      <Footer/>
-
+              {/* Routes for student only */}
+              {user.role === "student" && (
+                <>
+                  <Route path="/class" element={<ClassList />} />
+                  <Route path="/class/:classId" element={<ClassDetail />} />
+                </>
+              )}
+            </>
+          ) : (
+            <>
+              {/* Routes for non-authenticated users */}
+              <Route path="/" element={<Landing />} />
+              <Route
+                path="/signup"
+                element={<SignupForm setUser={setUser} />}
+              />
+              <Route
+                path="/signin"
+                element={<SigninForm setUser={setUser} />}
+              />
+              <Route path="/about" element={<About />} />
+            </>
+          )}
+        </Routes>
+      </main>
+      <Footer />
     </AuthedUserContext.Provider>
   );
 };

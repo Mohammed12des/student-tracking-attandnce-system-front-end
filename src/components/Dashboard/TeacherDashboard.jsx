@@ -1,61 +1,33 @@
-import { AuthedUserContext } from "../../App";
 import { useContext, useState, useEffect } from "react";
+import { AuthedUserContext } from "../../App";
 import axios from "axios";
 import "./Dashboard.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { Link } from "react-router-dom";
 
-const BACKEND_URL = `${
-  import.meta.env.VITE_EXPRESS_BACKEND_URL
-}/admin/users/student`;
-const ATTENDANCE_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/attendance`;
+const BACKEND_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/class`;
 
-const AdminDashboard = () => {
+const TeacherDashboard = () => {
   const user = useContext(AuthedUserContext);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [totalStudents, setTotalStudents] = useState(0);
-  const [presentStudents, setPresentStudents] = useState(0);
-  const [absentStudents, setAbsentStudents] = useState(0);
+  const [classes, setClasses] = useState([]);
   const [date, setDate] = useState(new Date());
 
-  // Fetch total number of students
+  // Fetch teacher's classes
   useEffect(() => {
-    const fetchTotalStudents = async () => {
+    const fetchClasses = async () => {
       try {
         const response = await axios.get(BACKEND_URL, {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         });
-        setTotalStudents(response.data.length);
+        setClasses(response.data);
       } catch (err) {
-        console.error("Error fetching total students:", err);
+        console.error("Error fetching classes:", err);
       }
     };
 
-    fetchTotalStudents();
-  }, []);
-
-  // Fetch attendance data
-  useEffect(() => {
-    const fetchAttendanceData = async () => {
-      try {
-        const response = await axios.get(ATTENDANCE_URL, {
-          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-        });
-        const attendanceData = response.data;
-        const presentCount = attendanceData.filter(
-          (record) => record.status === "Present"
-        ).length;
-        const absentCount = attendanceData.filter(
-          (record) => record.status === "Absent"
-        ).length;
-        setPresentStudents(presentCount);
-        setAbsentStudents(absentCount);
-      } catch (err) {
-        console.error("Error fetching attendance data:", err);
-      }
-    };
-
-    fetchAttendanceData();
+    fetchClasses();
   }, []);
 
   // Update the time every second
@@ -85,8 +57,8 @@ const AdminDashboard = () => {
     <main className="dashboard-container">
       <div className="dashboard-card">
         <header className="dashboard-header">
-          <h2>Admin Dashboard</h2>
-          <div className="admin-profile">
+          <h2>Teacher Dashboard</h2>
+          <div className="teacher-profile">
             <p>{user.username}</p>
             <p>{user.email}</p>
           </div>
@@ -112,23 +84,41 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="dashboard-stats">
-          <div className="stat-box">
-            <h3>Total Students</h3>
-            <p>{totalStudents}</p>
-          </div>
-          <div className="stat-box">
-            <h3>Present</h3>
-            <p>{presentStudents}</p>
-          </div>
-          <div className="stat-box">
-            <h3>Absent</h3>
-            <p>{absentStudents}</p>
-          </div>
+        <div className="class-list-section">
+          <h3>Your Classes</h3>
+          {classes.length === 0 ? (
+            <p>No classes found.</p>
+          ) : (
+            <table className="class-list-table">
+              <thead>
+                <tr>
+                  <th>Class Name</th>
+                  <th>Class Code</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
+                {classes.map((classItem) => (
+                  <tr key={classItem._id}>
+                    <td>{classItem.className}</td>
+                    <td>{classItem.classCode}</td>
+                    <td>
+                      <Link
+                        to={`/class/${classItem._id}`}
+                        className="view-link"
+                      >
+                        View Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </main>
   );
 };
 
-export default AdminDashboard;
+export default TeacherDashboard;

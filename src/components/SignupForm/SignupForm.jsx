@@ -5,7 +5,7 @@ import "./Signup.css";
 
 const SignupForm = (props) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState([""]);
+  const [message, setMessage] = useState("");
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -13,7 +13,7 @@ const SignupForm = (props) => {
     firstName: "",
     lastName: "",
     email: "",
-    role: "Student",
+    role: "student", // Use lowercase value
   });
 
   const updateMessage = (msg) => {
@@ -35,110 +35,143 @@ const SignupForm = (props) => {
     }
   };
 
-  const { username, password, passwordConf, firstName, lastName, email, role } =
-    formData;
-
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    return !(
+      formData.username &&
+      formData.password &&
+      formData.password === formData.passwordConf
+    );
   };
 
   return (
     <main className="signup-container">
-      <div className="signup-card">
+      <div className="signup-left">
+        <h1 className="signup-title">
+          Sign Up for Web Attendance Management System
+        </h1>
+        <img
+          src="https://myciti.in/wp-content/uploads/2021/02/staff-attendance-01.png"
+          alt="Web Attendance Illustration"
+          className="signup-illustration"
+        />
+      </div>
+      <div className="signup-right">
         <form onSubmit={handleSubmit} className="signup-form">
-          <h1 className="title">Sign Up</h1>
+          <h2 className="form-title">Sign Up</h2>
           <div className="input-group">
-            <label htmlFor="username">Username:</label>
             <input
               type="text"
               id="username"
-              value={username}
+              value={formData.username}
               name="username"
               onChange={handleChange}
-              className="animated-input"
+              className="input-field"
+              placeholder="Enter Username"
+              required
             />
           </div>
-          <div className="input-group-row">
-            <div className="input-group half">
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                name="password"
-                onChange={handleChange}
-                className="animated-input"
-              />
-            </div>
-            <div className="input-group half">
-              <label htmlFor="confirm">Confirm Password:</label>
-              <input
-                type="password"
-                id="confirm"
-                value={passwordConf}
-                name="passwordConf"
-                onChange={handleChange}
-                className="animated-input"
-              />
-            </div>
-          </div>
-          <div className="input-group-row">
-            <div className="input-group half">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                type="text"
-                id="firstName"
-                value={firstName}
-                name="firstName"
-                onChange={handleChange}
-                className="animated-input"
-              />
-            </div>
-            <div className="input-group half">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                name="lastName"
-                onChange={handleChange}
-                className="animated-input"
-              />
-            </div>
+          <div className="input-group">
+            <input
+              type="password"
+              id="password"
+              value={formData.password}
+              name="password"
+              onChange={handleChange}
+              className="input-field"
+              placeholder="Enter Password"
+              required
+            />
           </div>
           <div className="input-group">
-            <label htmlFor="email">Email:</label>
+            <input
+              type="password"
+              id="passwordConf"
+              value={formData.passwordConf}
+              name="passwordConf"
+              onChange={handleChange}
+              className="input-field"
+              placeholder="Confirm Password"
+              required
+            />
+          </div>
+          <div className="input-group">
             <input
               type="text"
-              id="email"
-              value={email}
-              name="email"
+              id="firstName"
+              value={formData.firstName}
+              name="firstName"
               onChange={handleChange}
-              className="animated-input"
+              className="input-field"
+              placeholder="Enter First Name"
+              required
             />
           </div>
           <div className="input-group">
-            <label htmlFor="role">Role:</label>
-            <select
-              id="role"
-              name="role"
-              value={role}
+            <input
+              type="text"
+              id="lastName"
+              value={formData.lastName}
+              name="lastName"
               onChange={handleChange}
-              className="animated-input"
-            >
-              <option value="Admin">Admin</option>
-              <option value="student">Student</option>
-              <option value="Teacher">Teacher</option>
-            </select>
+              className="input-field"
+              placeholder="Enter Last Name"
+              required
+            />
           </div>
-          <div className="button-container ">
-            <button
-              className="animated-button bg-black"
-              disabled={isFormInvalid()}
-            >
-              Sign Up
-            </button>
+          <div className="input-group">
+            <input
+              type="email"
+              id="email"
+              value={formData.email}
+              name="email"
+              onChange={handleChange}
+              className="input-field"
+              placeholder="Enter Email"
+              required
+            />
           </div>
+          <div className="input-group">
+            <label>Role:</label>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="admin"
+                  checked={formData.role === "admin"}
+                  onChange={handleChange}
+                />
+                Admin
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="student"
+                  checked={formData.role === "student"}
+                  onChange={handleChange}
+                />
+                Student
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="teacher"
+                  checked={formData.role === "teacher"}
+                  onChange={handleChange}
+                />
+                Teacher
+              </label>
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="signup-button"
+            disabled={isFormInvalid()}
+          >
+            Sign Up
+          </button>
           <div className="form-footer">
             <p>Already have an account?</p>
             <Link className="signin-link" to="/signin">

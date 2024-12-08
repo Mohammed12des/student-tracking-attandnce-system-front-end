@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./MangeTeacher.css";
 
-const BACKEND_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/admin/users/teacher`;
+const BACKEND_URL = `${
+  import.meta.env.VITE_EXPRESS_BACKEND_URL
+}/admin/users/teacher`;
 
 const MangeTeacher = () => {
   const [teachers, setTeachers] = useState([]);
@@ -40,7 +42,7 @@ const MangeTeacher = () => {
 
   return (
     <div className="teacher-list-container">
-      <h1>Teachers List</h1>
+      <h1>Manage Teachers</h1>
       <input
         type="text"
         placeholder="Search by name"
@@ -48,20 +50,23 @@ const MangeTeacher = () => {
         onChange={(e) => setSearchQuery(e.target.value)}
         className="search-input"
       />
+      <p>Total Teachers: {filteredTeachers.length}</p>
       {filteredTeachers.length === 0 ? (
         <p>No Teachers found.</p>
       ) : (
         <table className="teacher-table">
           <thead>
             <tr>
-              <th>Name</th>
+              <th>#</th>
+              <th>Username</th>
               <th>Email</th>
             </tr>
           </thead>
           <tbody>
-            {filteredTeachers.map((teacher) => (
+            {filteredTeachers.map((teacher, index) => (
               <tr key={teacher._id}>
-                <td className="teacher-name">{teacher.username}</td>
+                <td>{index + 1}</td>
+                <td className="teacher-username">{teacher.username}</td>
                 <td className="teacher-email">{teacher.email}</td>
               </tr>
             ))}

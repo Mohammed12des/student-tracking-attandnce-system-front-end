@@ -1,10 +1,92 @@
-.update {
-  background-color: blueviolet;
-  padding: 5px;
+.class-detail-admin-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.delete {
-  margin-top: 8px;
+.class-detail-admin-header {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.class-detail-admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field label {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.form-field input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+.update-button,
+.delete-button {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.update-button {
+  background-color: blueviolet;
+  color: white;
+}
+
+.update-button:hover {
+  background-color: darkviolet;
+}
+
+.delete-button {
   background-color: rgb(255, 81, 81);
-  padding: 5px;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: rgb(255, 50, 50);
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .class-detail-admin-container {
+    padding: 10px;
+  }
+
+  .class-detail-admin-header {
+    font-size: 1.2rem;
+  }
+
+  .form-field input {
+    padding: 8px;
+  }
+
+  .update-button,
+  .delete-button {
+    padding: 8px;
+    font-size: 1rem;
+  }
 }

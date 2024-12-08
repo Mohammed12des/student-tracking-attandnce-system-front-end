@@ -6,7 +6,18 @@ import "./ClassForm.css";
 
 const BACKEND_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/admin/users`;
 
-const timeOptions = ["08:00", "09:00", "10:00", "11:00", "12:00"];
+const timeOptions = [
+  "08:00",
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+];
 
 const ClassForm = ({ handleAddClass }) => {
   const navigate = useNavigate();
@@ -20,6 +31,7 @@ const ClassForm = ({ handleAddClass }) => {
   const [students, setStudents] = useState([]);
   const [teachers, setTeachers] = useState([]);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchStudentsAndTeachers = async () => {
@@ -65,131 +77,180 @@ const ClassForm = ({ handleAddClass }) => {
     });
   };
 
+  const handleStudentChange = (studentId) => {
+    setFormData((prevFormData) => {
+      const students = prevFormData.students.includes(studentId)
+        ? prevFormData.students.filter((id) => id !== studentId)
+        : [...prevFormData.students, studentId];
+      return { ...prevFormData, students };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Form data:", formData); // Debug log
     try {
       await newClass(formData);
-
       navigate("/admin/class");
     } catch (error) {
       console.error("Error adding class:", error);
+      setError(error.response?.data?.message || "Failed to add class");
     }
   };
 
+  const filteredStudents = students.filter((student) =>
+    student.username.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Class Name:</label>
-        <input
-          type="text"
-          name="className"
-          value={formData.className}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Class Code:</label>
-        <input
-          type="text"
-          name="classCode"
-          value={formData.classCode}
-          onChange={handleChange}
-          required
-        />
-      </div>
-      <div>
-        <label>Teacher:</label>
-        <select
-          name="teacherId"
-          value={formData.teacherId}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select Teacher</option>
-          {teachers.map((teacher) => (
-            <option key={teacher._id} value={teacher._id}>
-              {teacher.username} - {teacher.email}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Students:</label>
-        <select
-          name="students"
-          value={formData.students}
-          onChange={(e) =>
-            setFormData({
-              ...formData,
-              students: Array.from(
-                e.target.selectedOptions,
-                (option) => option.value
-              ),
-            })
-          }
-          multiple
-          required
-        >
-          {students.map((student) => (
-            <option key={student._id} value={student._id}>
-              {student.username} - {student.email}
-            </option>
-          ))}
-        </select>
-      </div>
-      {formData.schedule.map((item, index) => (
-        <div key={index}>
-          <label>Schedule :</label>
-          <select
-            value={item.day}
-            onChange={(e) => handleScheduleChange(index, "day", e.target.value)}
-            required
-          >
-            <option value="">Select Day</option>
-            <option value="Monday">Monday</option>
-            <option value="Tuesday">Tuesday</option>
-            <option value="Wednesday">Wednesday</option>
-            <option value="Thursday">Thursday</option>
-            <option value="Friday">Friday</option>
-            <option value="Saturday">Saturday</option>
-            <option value="Sunday">Sunday</option>
-          </select>
-          <select
-            value={item.startTime}
-            onChange={(e) =>
-              handleScheduleChange(index, "startTime", e.target.value)
-            }
-            required
-          >
-            <option value="">Select Start Time</option>
-            {timeOptions.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
+    <main className="dashboard-container">
+      <div className="dashboard-card">
+        <header className="dashboard-header">
+          <h2>Add New Class</h2>
+        </header>
+        <form onSubmit={handleSubmit} className="class-form">
+          <div className="form-left">
+            <div className="input-group">
+              <label>Class Name:</label>
+              <input
+                type="text"
+                name="className"
+                value={formData.className}
+                onChange={handleChange}
+                required
+                className="input-field"
+              />
+            </div>
+            <div className="input-group">
+              <label>Class Code:</label>
+              <input
+                type="text"
+                name="classCode"
+                value={formData.classCode}
+                onChange={handleChange}
+                required
+                className="input-field"
+              />
+            </div>
+            <div className="input-group">
+              <label>Teacher:</label>
+              <select
+                name="teacherId"
+                value={formData.teacherId}
+                onChange={handleChange}
+                required
+                className="input-field"
+              >
+                <option value="">Select Teacher</option>
+                {teachers.map((teacher) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.username} - {teacher.email}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {formData.schedule.map((item, index) => (
+              <div key={index} className="input-group schedule-group">
+                <label>Schedule :</label>
+                <select
+                  value={item.day}
+                  onChange={(e) =>
+                    handleScheduleChange(index, "day", e.target.value)
+                  }
+                  required
+                  className="input-field"
+                >
+                  <option value="">Select Day</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                  <option value="Sunday">Sunday</option>
+                </select>
+                <select
+                  value={item.startTime}
+                  onChange={(e) =>
+                    handleScheduleChange(index, "startTime", e.target.value)
+                  }
+                  required
+                  className="input-field"
+                >
+                  <option value="">Select Start Time</option>
+                  {timeOptions.map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={item.endTime}
+                  onChange={(e) =>
+                    handleScheduleChange(index, "endTime", e.target.value)
+                  }
+                  required
+                  className="input-field"
+                >
+                  <option value="">Select End Time</option>
+                  {timeOptions
+                    .filter((time) => time > item.startTime)
+                    .map((time) => (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    ))}
+                </select>
+              </div>
             ))}
-          </select>
-          <select
-            value={item.endTime}
-            onChange={(e) =>
-              handleScheduleChange(index, "endTime", e.target.value)
-            }
-            required
-          >
-            <option value="">Select End Time</option>
-            {timeOptions.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
-        </div>
-      ))}
-      <button className="addCls" type="submit">
-        Add Class
-      </button>
-      {error && <p>Error: {error}</p>}
-    </form>
+          </div>
+          <div className="form-right">
+            <div className="input-group">
+              <label>Students:</label>
+              <input
+                type="text"
+                placeholder="Search by name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="input-field"
+              />
+              <div className="student-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Select</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredStudents.map((student) => (
+                      <tr key={student._id}>
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={formData.students.includes(student._id)}
+                            onChange={() => handleStudentChange(student._id)}
+                          />
+                        </td>
+                        <td>{student.username}</td>
+                        <td>{student.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="form-footer">
+            <button type="submit" className="submit-button">
+              Add Class
+            </button>
+            {error && <p className="error-message">Error: {error}</p>}
+          </div>
+        </form>
+      </div>
+    </main>
   );
 };
 

@@ -1,67 +1,79 @@
+/* Navbar container */
 nav {
-  background-color: blueviolet;
-  padding: 15px 20px;
+  background-color: #ffe6e9; /* Light pink background */
+  padding: 10px 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+  width: 100%; /* Full width */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it stays on top */
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
 }
 
+/* Navigation list */
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  width: 100%; /* Spread icons evenly across */
+  justify-content: space-between;
+}
+
+/* Individual list items */
 li {
-  margin: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Links */
 a {
-  color: #ecf0f1;
+  color: #e63946; /* Deep pink for icons */
   text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
+  font-size: 1.5rem; /* Adjust icon size */
+  transition: color 0.3s, transform 0.2s;
 }
 
+/* Hover effects */
 a:hover {
-  color: #b8c7d1;
+  color: #d62839; /* Darker hover effect */
+  transform: scale(1.1); /* Slight scaling effect */
 }
 
-.dashboard,
-.newClass,
-.manageTeachers,
-.attendance,
-.schedule,
-.signout,
-.signin {
-  padding: 8px 12px;
-  border-radius: 4px;
+/* Welcome message */
+.welcome {
+  color: #1d3557; /* Dark blue text */
+  font-size: 1rem;
+  margin-right: 20px;
 }
 
-.signup {
-  margin-right: 1220px;
-}
+/* Sign-out button */
 .signout {
-  background-color: #e74c3c;
-  color: white;
+  color: #e63946;
 }
 
 .signout:hover {
-  background-color: #c0392b;
+  color: #d62839;
 }
 
+/* Responsive styles for mobile screens */
 @media (max-width: 600px) {
   nav {
-    text-align: center;
+    flex-direction: column; /* Stack items vertically */
+    height: auto;
   }
 
   ul {
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row; /* Stack icons horizontally */
+    flex-wrap: wrap; /* Allow wrapping to new lines if needed */
+    gap: 15px;
   }
 
-  li {
-    margin: 10px 0;
+  .welcome {
+    margin-bottom: 15px;
   }
 }

@@ -3,7 +3,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "./ClassList.css";
 
-
 const BACKEND_URL = `${import.meta.env.VITE_EXPRESS_BACKEND_URL}/class`;
 
 const ClassList = () => {
@@ -15,18 +14,17 @@ const ClassList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
- 
         const response = await axios.get(BACKEND_URL, {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         });
-        setClasses(response.data); 
+        setClasses(response.data);
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
         console.error("Error fetching class details:", err);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -38,31 +36,32 @@ const ClassList = () => {
 
   return (
     <div className="class-list-container">
-      <h1>Class List</h1>
-      {classes.length === 0 ? (
-        <p>No classes found.</p>
-      ) : (
-        <table className="class-schedule-table">
-          <thead>
-            <tr>
-              <th>Class Code</th>
-              <th>Class Name</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
-            {classes.map((classItem) => (
-              <tr key={classItem._id}>
-                <td>{classItem.classCode}</td>
-                <td>{classItem.className}</td>
-                <td>
-                  <Link to={`/class/${classItem._id}`}>View Details</Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+      <header className="class-list-header">
+        <h1>My Classes</h1>
+      </header>
+      <div className="class-cards">
+        {classes.length === 0 ? (
+          <p>No classes found.</p>
+        ) : (
+          classes.map((classItem, index) => (
+            <div key={classItem._id} className="class-card">
+              <div className="class-card-info">
+                <span className="class-card-number">{index + 1}</span>
+                <span className="class-card-name">
+                  {classItem.className} ({classItem.classCode})
+                </span>
+              </div>
+              <Link
+                to={`/class/${classItem._id}`}
+                className="class-card-link"
+                title="View Details"
+              >
+                ✏️
+              </Link>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 };
