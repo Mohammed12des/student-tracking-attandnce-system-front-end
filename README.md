@@ -48,5 +48,4 @@ order. [the app backend](https://github.com/MuntRah/student-traking-attandnce-sy
 
 ## credit
 
-- we use gpt for some css and some lines of code
 - axios docs
